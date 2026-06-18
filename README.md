@@ -1,4 +1,6 @@
-# Real-Time Object Detection Application
+# Real-Time Object Detection Application  
+
+VISION IQ 
 
 This repository contains a modular, fully-functional, real-time object detection application in Python. It captures video from a webcam or a local video file, runs object detection using a YOLOv8 pre-trained model (via Ultralytics), overlays BGR color-coded bounding boxes and class labels, displays performance metrics (rolling average FPS), and supports saving the annotated output stream.
 
