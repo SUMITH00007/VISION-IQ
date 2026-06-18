@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VisionIQ — Enterprise Dashboard</title>
+<meta name="description" content="VisionIQ enterprise real-time detection dashboard. AI-powered visual analytics.">
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Separated CSS Assets -->
+<link rel="stylesheet" href="/static/css/theme.css?v=2.0">
+<link rel="stylesheet" href="/static/css/dashboard.css?v=2.0">
+</head>
+<body>
+
+<!-- Interactive Particle connection network -->
+<canvas id="particles"></canvas>
+
+<!-- TOPBAR -->
+<header class="topbar">
+  <div class="topbar-inner">
+    <a href="/" class="brand">
+      <div class="brand-icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M14.31 8l5.74 9.94"/>
+          <path d="M9.69 8h11.48"/>
+          <path d="M7.38 12l5.74-9.94"/>
+          <path d="M9.69 16L3.95 6.06"/>
+          <path d="M14.31 16H2.83"/>
+          <path d="M16.62 12l-5.74 9.94"/>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">VisionIQ</div>
+        <div class="brand-sub">Platform</div>
+      </div>
+    </a>
+    <nav class="nav">
+      <!-- Dark mode button -->
+      <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+        <!-- Dynamically rendered by shared.js -->
+      </button>
+      <a href="/" class="nl on">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
+        <span>Dashboard</span>
+      </a>
+      <a href="/detect" class="nl nav-cta">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        <span>Start Console</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<main class="page">
+
+  <!-- HERO -->
+  <div class="card hero d1">
+    <div class="hero-scan"></div>
+    <div>
+      <div class="hero-eyebrow">
+        <span class="pulse-dot"></span>
+        <span id="heroStatus">System Ready</span>
+      </div>
+      <h1>Detect <em>Anything</em><br>in Real Time</h1>
+      <p class="hero-desc">
+        Connect your camera feed to run instant object tracking. VisionIQ analyses video frame-by-frame on CPU to detect everyday items, people, vehicles, tools, and animals with high performance.
+      </p>
+    </div>
+    <div class="status-widget">
+      <div class="status-ring" id="statusRing">
+        <div class="status-dot-inner" id="statusDot"></div>
+      </div>
+      <div class="status-label" id="statusLabel">Camera Off</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="card stat-card d2">
+      <div class="stat-icon blue">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#2463eb" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="stat-label">Frame Rate</div>
+      <div class="stat-value" id="sFps">—</div>
+      <div class="stat-unit">frames / second</div>
+    </div>
+    <div class="card stat-card d3">
+      <div class="stat-icon green">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#12b35a" stroke-width="2.2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </div>
+      <div class="stat-label">Inference Latency</div>
+      <div class="stat-value" id="sInf">—</div>
+      <div class="stat-unit">ms / frame</div>
+    </div>
+    <div class="card stat-card d4">
+      <div class="stat-icon amber">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+      </div>
+      <div class="stat-label">Camera Status</div>
+      <div class="stat-value" id="sCamVal" style="font-size:1.05rem;margin-top:8px">—</div>
+    </div>
+  </div>
+
+  <!-- MODEL STRIP -->
+  <div class="card model-strip d5">
+    <div class="model-icon-wrap">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2463eb" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/></svg>
+    </div>
+    <div class="model-meta">
+      <div class="model-name">Intelligent Detection Engine</div>
+      <div class="model-sub">Dynamic CPU-optimized YOLO engines · Real-time hot-swappable settings</div>
+    </div>
+    <div class="model-pill" id="confPill">CONF: 0.15</div>
+  </div>
+
+  <!-- SOURCE SELECTOR -->
+  <div class="card d5" style="padding:24px 28px">
+    <div class="section-hd">
+      <div class="section-title">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+        Select Input Source
+      </div>
+      <span class="section-badge" id="srcBadge">channel:0</span>
+    </div>
+
+    <div class="source-grid">
+      <div class="src-btn active" id="srcLocal" onclick="selectSource(this,'0')">
+        <span class="src-icon">🎥</span>
+        <div class="src-name">Built-in / USB Camera</div>
+        <div class="src-desc">Laptop webcam or USB device</div>
+      </div>
+      <div class="src-btn" id="srcIP" onclick="selectSource(this,'phone')">
+        <span class="src-icon">📡</span>
+        <div class="src-name">IP / Mobile Camera</div>
+        <div class="src-desc">Wi-Fi stream from phone or IP cam</div>
+      </div>
+    </div>
+
+    <div id="ipRow" class="ip-row" style="display:none">
+      <input id="ipInput" class="ip-input" type="url" placeholder="http://192.168.1.x:8080/video  or  rtsp://...">
+      <button class="btn-connect" onclick="applyIP()">Connect</button>
+    </div>
+    <div id="phoneGuide" class="info-box" style="display:none">
+      <strong style="color:var(--blue)">📱 Mobile / IP Camera Setup:</strong><br>
+      1. Install <strong>IP Webcam</strong> (Android) or similar stream app on your phone.<br>
+      2. Ensure your phone and computer are on the <strong>same Wi-Fi network</strong>.<br>
+      3. Enter the video stream URL (e.g. <code>http://192.168.1.15:8080/video</code>) and click <strong>Connect</strong>.<br>
+      4. Launch the live detection console below.
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-wrap">
+    <a href="/detect" class="cta-btn">
+      Start Live Detection
+      <svg class="cta-arrow" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </a>
+  </div>
+
+</main>
+
+<!-- Separated JavaScript Assets -->
+<script src="/static/js/shared.js?v=2.0"></script>
+<script src="/static/js/dashboard.js?v=2.0"></script>
+</body>
+</html>
