@@ -1,0 +1,30 @@
+# Ignore python virtual environments
+venv/
+.venv/
+object_detection/venv/
+object_detection/.venv/
+
+# Ignore local outputs and caches
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+outputs/
+object_detection/outputs/
+.git/
+.github/
+.vscode/
+
+# Ignore weights if they are not needed or are downloaded dynamically, 
+# or keep them if they are absolutely needed. But wait, we have many weights:
+# yolo11m.pt, yolo11s-seg.pt, yolo11s.pt, yolov8m.pt, yolov8s-seg.pt, yolov8s-worldv2.pt, yolov8s.pt
+# Since these weights total to >200MB, let's ignore all except the default ones if needed.
+# Better yet, let Vercel download weights dynamically or only keep the small default model yolov8n.pt / yolo11n.pt
+object_detection/yolo11m.pt
+object_detection/yolo11s-seg.pt
+object_detection/yolo11s.pt
+object_detection/yolov8m.pt
+object_detection/yolov8s-seg.pt
+object_detection/yolov8s-worldv2.pt
+object_detection/yolov8s.pt
+yolo11n.pt
